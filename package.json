@@ -1,0 +1,58 @@
+{
+  "name": "simple-security",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist/*",
+    "build": "eslint --fix && tsc",
+    "build:watch": "eslint-watch & tsc",
+    "clean:build": "pnpm run clean && pnpm run build",
+    "start": "pnpm run clean:build && node dist/index.js",
+    "dev": "pnpm run build:watch & nodemon dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/js-with-ts",
+    "testEnvironment": "node",
+    "transform": {
+      "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ],
+    "testPathIgnorePatterns": [
+      "dist/",
+      "node_modules/"
+    ],
+    "setupFiles": ["dotenv/config"]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "joi": "^17.12.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/jest": "^29.5.12",
+    "@types/pg": "^8.11.2",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "eslint-cli": "^1.1.1",
+    "eslint-watch": "^8.0.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "pm2": "^5.3.1",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.2"
+  }
+}

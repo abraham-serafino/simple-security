@@ -1,0 +1,5 @@
+.idea/
+simple-security-node.iml
+dist/
+/.run/
+/node_modules/
