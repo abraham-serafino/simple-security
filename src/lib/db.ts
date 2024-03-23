@@ -1,5 +1,10 @@
 import { Pool } from "pg"
 
+export interface ITableResult<T> {
+    rowCount: number | null
+    rows: T[]
+}
+
 let pool: Pool | null = null
 
 export default function db() {
