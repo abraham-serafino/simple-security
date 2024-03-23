@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf ./dist/*",
     "build": "eslint --fix && tsc",
-    "build:watch": "eslint-watch & tsc",
+    "build:watch": "esw --ignore-path dist --fix & tsc",
     "clean:build": "pnpm run clean && pnpm run build",
     "start": "pnpm run clean:build && node dist/index.js",
     "dev": "pnpm run build:watch & nodemon dist/index.js",

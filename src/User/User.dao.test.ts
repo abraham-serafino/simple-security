@@ -1,10 +1,10 @@
 import db from "../lib/db"
-import { Users } from "./user.model"
+import UserDAO from "./User.dao"
 
 test("insert users", async () => {
     await db().query(`delete from users`)
 
-    const users = new Users()
+    const users = new UserDAO()
     await users.save("test_user1@email.com", "test_password1")
     await users.save("test_user2@email.com", "test_password2", true)
     await users.save("test_user3@email.com", "test_password3")
@@ -27,7 +27,7 @@ test("insert users", async () => {
 test("update users", async () => {
     await db().query(`delete from users`)
 
-    const users = new Users()
+    const users = new UserDAO()
     const [result1] = await users.save(
         "test_user1@email.com",
         "test_password1"
