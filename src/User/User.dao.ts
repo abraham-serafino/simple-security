@@ -79,7 +79,6 @@ export default class UserDAO {
         )
 
         this.data = UserDAO.fromRows(result)
-        console.log(this.data)
         return this.data
     }
 

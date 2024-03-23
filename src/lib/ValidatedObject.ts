@@ -42,7 +42,7 @@ export class DatabaseRecord extends ValidatedObject {
     }
 }
 
-export class DTO extends ValidatedObject {
+export class ValidatedDTO extends ValidatedObject {
     validate(response: Response) {
         const error = this._validate?.()
 

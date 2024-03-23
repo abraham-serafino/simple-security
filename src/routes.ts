@@ -99,6 +99,7 @@ export default (topLevelFolder = "./dist") => {
         }
     }
 
+    expressApp.use(express.json())
     traverseFolder(topLevelFolder)
 
     expressApp.listen(port, () => {

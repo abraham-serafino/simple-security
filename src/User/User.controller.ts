@@ -1,19 +1,17 @@
-import { Request, Response } from "express"
+import { Request, response, Response } from "express"
 import UserDAO from "./User.dao"
-import { DTO } from "../lib/ValidatedObject"
+import { ValidatedDTO } from "../lib/ValidatedObject"
 import Joi from "joi"
 
-class UserRequest extends DTO {
+class UserRequest extends ValidatedDTO {
     constructor(
         public email: string,
-        public password?: string,
-        public isAuthenticated: boolean = false
+        public password?: string
     ) {
         super(
             Joi.object({
                 email: Joi.string().required(),
-                password: Joi.string().required(),
-                isAuthenticated: Joi.boolean()
+                password: Joi.string().required()
             })
         )
     }
@@ -38,7 +36,10 @@ export default class UserController {
 
         try {
             const dao = new UserDAO()
-            const [user] = await dao.find(email, password)
+            const [user] = await dao.find(
+                userDTO.email,
+                userDTO.password
+            )
 
             if (user) {
                 const { isAuthenticated } = user
@@ -48,6 +49,51 @@ export default class UserController {
             }
         } catch (e) {
             response.sendStatus(500)
+        }
+    }
+
+    static async save(request: Request, response: Response) {
+        const { email, password } = request.body as {
+            email: string
+            password: string
+        }
+
+        const userDTO = new UserRequest(email, password)
+
+        if (!userDTO.validate(response)) {
+            return
+        }
+
+        try {
+            const dao = new UserDAO()
+
+            return dao.save(
+                userDTO.email,
+                userDTO.password as string,
+                false
+            )
+        } catch (e) {
+            response.sendStatus(500)
+        }
+    }
+
+    static async put(request: Request, response: Response) {
+        const user = UserController.save(request, response)
+
+        if (!user) {
+            response.sendStatus(500)
+        } else {
+            response.sendStatus(200)
+        }
+    }
+
+    static async post(request: Request, response: Response) {
+        const user = UserController.save(request, response)
+
+        if (!user) {
+            response.sendStatus(500)
+        } else {
+            response.sendStatus(201)
         }
     }
 }
